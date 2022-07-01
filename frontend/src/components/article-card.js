@@ -1,6 +1,6 @@
-import React from "react"
-import { Link, graphql } from "gatsby"
-import { GatsbyImage, getImage } from "gatsby-plugin-image"
+import React from "react";
+import { Link, graphql } from "gatsby";
+import { GatsbyImage, getImage } from "gatsby-plugin-image";
 
 const ArticleCard = ({ article }) => {
   return (
@@ -19,8 +19,8 @@ const ArticleCard = ({ article }) => {
         </p>
       </div>
     </Link>
-  )
-}
+  );
+};
 
 export const query = graphql`
   fragment ArticleCard on STRAPI_ARTICLE {
@@ -37,6 +37,6 @@ export const query = graphql`
       }
     }
   }
-`
+`;
 
-export default ArticleCard
+export default ArticleCard;

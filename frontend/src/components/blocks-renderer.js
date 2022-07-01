@@ -1,26 +1,26 @@
-import React from "react"
-import { graphql } from "gatsby"
-import BlockRichText from "./block-rich-text"
-import BlockMedia from "./block-media"
-import BlockQuote from "./block-quote"
-import BlockSlider from "./block-slider"
+import React from "react";
+import { graphql } from "gatsby";
+import BlockRichText from "./block-rich-text";
+import BlockMedia from "./block-media";
+import BlockQuote from "./block-quote";
+import BlockSlider from "./block-slider";
 
 const componentsMap = {
   STRAPI__COMPONENT_SHARED_RICH_TEXT: BlockRichText,
   STRAPI__COMPONENT_SHARED_MEDIA: BlockMedia,
   STRAPI__COMPONENT_SHARED_QUOTE: BlockQuote,
   STRAPI__COMPONENT_SHARED_SLIDER: BlockSlider,
-}
+};
 
 const Block = ({ block }) => {
-  const Component = componentsMap[block.__typename]
+  const Component = componentsMap[block.__typename];
 
   if (!Component) {
-    return null
+    return null;
   }
 
-  return <Component data={block} />
-}
+  return <Component data={block} />;
+};
 
 const BlocksRenderer = ({ blocks }) => {
   return (
@@ -29,8 +29,8 @@ const BlocksRenderer = ({ blocks }) => {
         <Block key={`${index}${block.__typename}`} block={block} />
       ))}
     </div>
-  )
-}
+  );
+};
 
 export const query = graphql`
   fragment Blocks on STRAPI__COMPONENT_SHARED_MEDIASTRAPI__COMPONENT_SHARED_QUOTESTRAPI__COMPONENT_SHARED_RICH_TEXTSTRAPI__COMPONENT_SHARED_SLIDERUnion {
@@ -72,6 +72,6 @@ export const query = graphql`
       }
     }
   }
-`
+`;
 
-export default BlocksRenderer
+export default BlocksRenderer;

@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 const BlockQuote = ({ data }) => {
   return (
@@ -10,7 +10,7 @@ const BlockQuote = ({ data }) => {
         </cite>
       </blockquote>
     </div>
-  )
-}
+  );
+};
 
-export default BlockQuote
+export default BlockQuote;

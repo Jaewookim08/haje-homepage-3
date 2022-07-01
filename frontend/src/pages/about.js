@@ -1,9 +1,9 @@
-import React from "react"
-import { useStaticQuery, graphql } from "gatsby"
-import Layout from "../components/layout"
-import Seo from "../components/seo"
-import BlocksRenderer from "../components/blocks-renderer"
-import Headings from "../components/headings"
+import React from "react";
+import { useStaticQuery, graphql } from "gatsby";
+import Layout from "../components/layout";
+import Seo from "../components/seo";
+import BlocksRenderer from "../components/blocks-renderer";
+import Headings from "../components/headings";
 
 const AboutPage = () => {
   const { strapiAbout } = useStaticQuery(graphql`
@@ -15,13 +15,13 @@ const AboutPage = () => {
         }
       }
     }
-  `)
-  const { title, blocks } = strapiAbout
+  `);
+  const { title, blocks } = strapiAbout;
 
   const seo = {
     metaTitle: title,
     metaDescription: title,
-  }
+  };
 
   return (
     <Layout>
@@ -29,7 +29,7 @@ const AboutPage = () => {
       <Headings title={strapiAbout.title} />
       <BlocksRenderer blocks={blocks} />
     </Layout>
-  )
-}
+  );
+};
 
-export default AboutPage
+export default AboutPage;

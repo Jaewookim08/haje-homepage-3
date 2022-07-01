@@ -1,5 +1,5 @@
-import React from "react"
-import ArticleCard from "./article-card"
+import React from "react";
+import ArticleCard from "./article-card";
 
 const ArticlesGrid = ({ articles }) => {
   return (
@@ -8,7 +8,7 @@ const ArticlesGrid = ({ articles }) => {
         <ArticleCard article={article} />
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default ArticlesGrid
+export default ArticlesGrid;
