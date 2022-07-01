@@ -17,7 +17,7 @@ const ArticlePage = ({ data }) => {
   return (
     <Layout as="article">
       <Seo seo={seo} />
-      <header className="container max-w-4xl py-8">
+      <header className="container py-8">
         <h1 className="text-6xl font-bold text-neutral-700">{article.title}</h1>
         <p className="mt-4 text-2xl text-neutral-500">{article.description}</p>
         <GatsbyImage
