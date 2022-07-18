@@ -1,6 +1,6 @@
 require("dotenv").config({
   path: `.env.${process.env.NODE_ENV}`,
-})
+});
 
 module.exports = {
   plugins: [
@@ -44,6 +44,15 @@ module.exports = {
             },
           },
           {
+            singularName: "front-page",
+            queryParams: {
+              populate: {
+                logo: "*",
+                background: "*",
+              },
+            },
+          },
+          {
             singularName: "global",
             queryParams: {
               populate: {
@@ -62,4 +71,4 @@ module.exports = {
     "gatsby-transformer-sharp",
     "gatsby-transformer-remark",
   ],
-}
+};
