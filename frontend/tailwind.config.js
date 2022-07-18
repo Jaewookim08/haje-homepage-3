@@ -1,4 +1,4 @@
-const colors = require("tailwindcss/colors")
+const colors = require("tailwindcss/colors");
 
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
@@ -6,7 +6,10 @@ module.exports = {
     extend: {
       colors: {
         neutral: colors.neutral,
-        primary: colors.sky,
+        primary: colors.orange,
+      },
+      backgroundImage: {
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
       },
     },
     container: {
@@ -24,4 +27,4 @@ module.exports = {
     require("@tailwindcss/line-clamp"),
     require("@tailwindcss/typography"),
   ],
-}
+};
