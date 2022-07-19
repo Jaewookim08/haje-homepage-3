@@ -18,11 +18,22 @@ export default class Header extends React.Component<Props, {}> {
       <header
         id="header"
         className={
-          "flex max-w-full flex-col items-center text-center text-frontpagePrimary transition ease-in-out"
+          "flex max-w-full flex-col items-center text-center text-frontpagePrimary transition duration-1000 ease-in-out"
         }
       >
-        <div className="relative mt-0 max-h-160 max-w-full overflow-hidden border-t border-b border-solid border-frontpagePrimary px-8 pb-12 pt-4 transition ease-in-out ">
-          <div className="flex flex-col items-center justify-center transition-all delay-250">
+        <div
+          className={`relative mt-0 max-w-full 
+          border-t border-b border-solid border-frontpagePrimary 
+          transition duration-[5s] ease-in-out 
+          ${this.props.isLoading ? "" : ""}`}
+        >
+          <div
+            className={`ease flex flex-col items-center justify-center overflow-hidden px-8  transition-all delay-200 duration-[1s] ${
+              this.props.isLoading
+                ? "max-h-0 py-0 opacity-0"
+                : "max-h-160 pt-6 pb-12"
+            }`}
+          >
             <img
               className="h-32 object-contain pb-6"
               src={logoImageSrc}
