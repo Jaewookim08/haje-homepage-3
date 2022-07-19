@@ -5,7 +5,7 @@ import ArticlesGrid from "../components/articles-grid";
 import Seo from "../components/seo";
 import Headings from "../components/headings";
 
-const IndexPage = () => {
+const NewsPage = () => {
   const { allStrapiArticle, strapiGlobal } = useStaticQuery(graphql`
     query {
       allStrapiArticle {
@@ -34,4 +34,4 @@ const IndexPage = () => {
   );
 };
 
-export default IndexPage;
+export default NewsPage;
