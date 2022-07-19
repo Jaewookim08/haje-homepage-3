@@ -49,14 +49,19 @@ export default class FrontPage extends React.Component<Props, State> {
           <div
             id={"wrapper"}
             className={
-              "relative z-30 min-h-screen w-full p-4 md:py-8 md:px-4 lg:py-12 lg:px-8 xl:py-16 xl:px-8"
+              "relative z-30 flex min-h-screen w-full flex-col items-center justify-between p-4 md:py-8 md:px-4 xl:py-12 xl:px-8 2xl:py-16 2xl:px-8"
             }
           >
+            <div /> {/* flex 위치조정용 */}
             <Header
               description={page.description}
-              logo_image={page.logo.localFile}
-              logo_alt={page.logo.alternativeText}
+              logoImage={page.logo.localFile}
+              logoAlt={page.logo.alternativeText}
+              isLoading={this.state.isLoading}
             />
+            <div className={"mt-8 block h-4 w-full max-w-full text-center"}>
+              {/* 나중에 footer 추가? */}
+            </div>
           </div>
           {/* background */}
           <BackgroundImage />
@@ -66,6 +71,10 @@ export default class FrontPage extends React.Component<Props, State> {
               position: "fixed",
             }}
             className={`left-0 top-0 z-10 h-screen w-full bg-cover bg-center`}
+          />
+          {/* 배경 어둡게 앞에서 가려주는 놈*/}
+          <div
+            className={`fixed left-0 top-0 z-20 z-10 h-screen w-full bg-gradient-to-r from-black/30 to-black/30`}
           />
         </div>
       </div>

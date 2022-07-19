@@ -7,9 +7,16 @@ module.exports = {
       colors: {
         neutral: colors.neutral,
         primary: colors.orange,
+        frontpagePrimary: colors.white,
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+      },
+      transitionDelay: {
+        250: "250ms",
+      },
+      spacing: {
+        160: "40rem",
       },
     },
     container: {
