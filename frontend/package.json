@@ -27,6 +27,7 @@
     "gatsby-transformer-remark": "^5.6.0",
     "gatsby-transformer-sharp": "^4.6.0",
     "gbimage-bridge": "^0.2.1",
+    "mathjs": "^10.6.4",
     "postcss": "^8.4.6",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
