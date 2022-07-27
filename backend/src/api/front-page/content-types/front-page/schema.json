@@ -16,19 +16,19 @@
       "type": "text"
     },
     "logo": {
-      "allowedTypes": [
-        "images"
-      ],
       "type": "media",
       "multiple": false,
-      "required": false
-    },
-    "background": {
+      "required": false,
       "allowedTypes": [
         "images"
+      ]
+    },
+    "backgroundCycle": {
+      "type": "dynamiczone",
+      "components": [
+        "front-page.background-cycle-component"
       ],
-      "type": "media",
-      "multiple": false
+      "required": true
     }
   }
 }
