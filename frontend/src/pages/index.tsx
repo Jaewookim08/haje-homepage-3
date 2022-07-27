@@ -2,7 +2,10 @@ import React from "react";
 import Header from "../components/mainpage-center-header";
 import Seo from "../components/seo";
 import { graphql } from "gatsby";
-import { StrapiImageQuery } from "../helpers/strapi-image-query";
+import {
+  StrapiImageQuery,
+  StrapiMediaQuery,
+} from "../helpers/strapi-media-queries";
 import { BgImage } from "gbimage-bridge";
 import { getImage } from "gatsby-plugin-image";
 import Cycler from "../components/cycler";
@@ -15,7 +18,7 @@ type Props = {
       background: StrapiImageQuery;
       backgroundCycle: {
         uptime: number;
-        content: StrapiImageQuery;
+        content: StrapiMediaQuery;
       }[];
     };
   };
@@ -43,27 +46,52 @@ export default class FrontPage extends React.Component<Props, State> {
     }
   }
 
+  private static getBackgroundMediaRenderer({
+    uptime,
+    content,
+  }: {
+    uptime: number;
+    content: StrapiMediaQuery;
+  }) {
+    const isVideo = content.mime.startsWith("video");
+
+    const contentRenderer = isVideo ? (
+      <video
+        className={`fixed left-0 top-0 z-10 h-screen w-full object-cover`}
+        autoPlay
+        muted
+        loop={false}
+      >
+        <source src={content.localFile.url} type={content.mime} />
+        Failed to load video.
+      </video>
+    ) : (
+      <BgImage
+        image={getImage(content.localFile)}
+        keepStatic
+        // @ts-ignore
+        style={{
+          position: "fixed",
+        }}
+        fadeIn={false}
+        critical={true}
+        className={`left-0 top-0 z-10 h-screen w-full bg-cover bg-center`}
+      />
+    );
+
+    return {
+      uptime,
+      content: contentRenderer,
+    };
+  }
+
   render() {
     const seo = {}; // Todo: seo
     const page = this.props.data.strapiFrontPage;
 
-    const backgroundsData = page.backgroundCycle.map(({ uptime, content }) => {
-      return {
-        uptime,
-        content: (
-          <BgImage
-            image={getImage(content.localFile)}
-            keepStatic
-            style={{
-              position: "fixed",
-            }}
-            fadeIn={false}
-            critical={true}
-            className={`left-0 top-0 z-10 h-screen w-full bg-cover bg-center`}
-          />
-        ),
-      };
-    });
+    const backgroundsData = page.backgroundCycle.map(
+      FrontPage.getBackgroundMediaRenderer
+    );
 
     return (
       <div>
@@ -118,11 +146,13 @@ export const query = graphql`
         ... on STRAPI__COMPONENT_FRONT_PAGE_BACKGROUND_CYCLE_COMPONENT {
           uptime
           content {
+            mime
             alternativeText
             localFile {
               childImageSharp {
                 gatsbyImageData(placeholder: NONE)
               }
+              url
             }
           }
         }

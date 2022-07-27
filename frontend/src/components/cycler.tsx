@@ -23,6 +23,7 @@ type State = {
   switchIndex: number;
 };
 
+// Todo: 로딩될 때까지 전 컴포넌트로 가리기 (하얀색 flicker 방지)
 export default class Cycler extends React.Component<Props, State> {
   public state: State = {
     switchIndex: 0,
