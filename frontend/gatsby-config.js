@@ -48,7 +48,9 @@ module.exports = {
             queryParams: {
               populate: {
                 logo: "*",
-                background: "*",
+                backgroundCycle: {
+                  populate: "*",
+                },
               },
             },
           },

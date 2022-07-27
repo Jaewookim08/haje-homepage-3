@@ -5,13 +5,18 @@ import { graphql } from "gatsby";
 import { StrapiImageQuery } from "../helpers/strapi-image-query";
 import { BgImage } from "gbimage-bridge";
 import { getImage } from "gatsby-plugin-image";
-import BackgroundImage from "gatsby-background-image";
+import Cycler from "../components/cycler";
+
 type Props = {
   data: {
     strapiFrontPage: {
       description: string;
       logo: StrapiImageQuery;
       background: StrapiImageQuery;
+      backgroundCycle: {
+        uptime: number;
+        content: StrapiImageQuery;
+      }[];
     };
   };
 };
@@ -42,6 +47,24 @@ export default class FrontPage extends React.Component<Props, State> {
     const seo = {}; // Todo: seo
     const page = this.props.data.strapiFrontPage;
 
+    const backgroundsData = page.backgroundCycle.map(({ uptime, content }) => {
+      return {
+        uptime,
+        content: (
+          <BgImage
+            image={getImage(content.localFile)}
+            keepStatic
+            style={{
+              position: "fixed",
+            }}
+            fadeIn={false}
+            critical={true}
+            className={`left-0 top-0 z-10 h-screen w-full bg-cover bg-center`}
+          />
+        ),
+      };
+    });
+
     return (
       <div>
         <Seo seo={seo} />
@@ -64,14 +87,8 @@ export default class FrontPage extends React.Component<Props, State> {
             </div>
           </div>
           {/* background */}
-          <BackgroundImage />
-          <BgImage
-            image={getImage(page.background.localFile)}
-            style={{
-              position: "fixed",
-            }}
-            className={`left-0 top-0 z-10 h-screen w-full bg-cover bg-center`}
-          />
+          <Cycler switchData={backgroundsData} />
+
           {/* 배경 어둡게 앞에서 가려주는 놈*/}
           <div
             className={`fixed left-0 top-0 z-20 z-10 h-screen w-full bg-gradient-to-r delay-700 duration-[2.5s] ease-in-out ${
@@ -96,11 +113,17 @@ export const query = graphql`
           }
         }
       }
-      background {
-        alternativeText
-        localFile {
-          childImageSharp {
-            gatsbyImageData(placeholder: BLURRED)
+      backgroundCycle {
+        __typename
+        ... on STRAPI__COMPONENT_FRONT_PAGE_BACKGROUND_CYCLE_COMPONENT {
+          uptime
+          content {
+            alternativeText
+            localFile {
+              childImageSharp {
+                gatsbyImageData(placeholder: NONE)
+              }
+            }
           }
         }
       }
