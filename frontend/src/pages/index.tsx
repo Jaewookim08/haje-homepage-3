@@ -46,17 +46,21 @@ export default class FrontPage extends React.Component<Props, State> {
     }
   }
 
-  private static getBackgroundMediaRenderer({
-    uptime,
-    content,
-  }: {
-    uptime: number;
-    content: StrapiMediaQuery;
-  }) {
+  private static getBackgroundMediaRenderer(
+    index: number,
+    {
+      uptime,
+      content,
+    }: {
+      uptime: number;
+      content: StrapiMediaQuery;
+    }
+  ) {
     const isVideo = content.mime.startsWith("video");
 
     const contentRenderer = isVideo ? (
       <video
+        key={index}
         className={`fixed left-0 top-0 z-10 h-screen w-full object-cover`}
         autoPlay
         muted
@@ -67,6 +71,7 @@ export default class FrontPage extends React.Component<Props, State> {
       </video>
     ) : (
       <BgImage
+        key={index}
         image={getImage(content.localFile)}
         keepStatic
         // @ts-ignore
@@ -89,8 +94,8 @@ export default class FrontPage extends React.Component<Props, State> {
     const seo = {}; // Todo: seo
     const page = this.props.data.strapiFrontPage;
 
-    const backgroundsData = page.backgroundCycle.map(
-      FrontPage.getBackgroundMediaRenderer
+    const backgroundsData = page.backgroundCycle.map((backgroundData, i) =>
+      FrontPage.getBackgroundMediaRenderer(i, backgroundData)
     );
 
     return (
