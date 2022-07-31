@@ -9,6 +9,7 @@ import {
 import { BgImage } from "gbimage-bridge";
 import { getImage } from "gatsby-plugin-image";
 import Cycler, { SwitchDataElementInput } from "../components/cycler";
+import Navbar from "../components/navbar";
 
 type Props = {
   data: {
@@ -111,6 +112,8 @@ export default class FrontPage extends React.Component<Props, State> {
     return (
       <div>
         <Seo seo={seo} />
+        <Navbar isFrontPage={true} />
+
         <div>
           <div
             id={"wrapper"}
