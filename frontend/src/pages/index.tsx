@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createRef } from "react";
 import Header from "../components/mainpage-center-header";
 import Seo from "../components/seo";
 import { graphql } from "gatsby";
@@ -8,7 +8,7 @@ import {
 } from "../helpers/strapi-media-queries";
 import { BgImage } from "gbimage-bridge";
 import { getImage } from "gatsby-plugin-image";
-import Cycler from "../components/cycler";
+import Cycler, { SwitchDataElementInput } from "../components/cycler";
 
 type Props = {
   data: {
@@ -55,39 +55,54 @@ export default class FrontPage extends React.Component<Props, State> {
       uptime: number;
       content: StrapiMediaQuery;
     }
-  ) {
+  ): SwitchDataElementInput {
     const isVideo = content.mime.startsWith("video");
 
-    const contentRenderer = isVideo ? (
-      <video
-        key={index}
-        className={`fixed left-0 top-0 z-10 h-screen w-full object-cover`}
-        autoPlay
-        muted
-        loop={false}
-      >
-        <source src={content.localFile.url} type={content.mime} />
-        Failed to load video.
-      </video>
-    ) : (
-      <BgImage
-        key={index}
-        image={getImage(content.localFile)}
-        keepStatic
-        // @ts-ignore
-        style={{
-          position: "fixed",
-        }}
-        fadeIn={false}
-        critical={true}
-        className={`left-0 top-0 z-10 h-screen w-full bg-cover bg-center`}
-      />
-    );
+    if (isVideo) {
+      const ref = createRef<HTMLVideoElement>();
+      const videoElement = (
+        <video
+          ref={ref}
+          key={index}
+          className={`fixed left-0 top-0 z-10 h-screen w-full border object-cover`}
+          muted
+          loop={false}
+        >
+          <source src={content.localFile.url} type={content.mime} />
+          Failed to load video.
+        </video>
+      );
+      const playElement = async () => {
+        if (ref.current) {
+          await ref.current.play();
+        }
+      };
 
-    return {
-      uptime,
-      content: contentRenderer,
-    };
+      return {
+        uptime,
+        content: videoElement,
+        playElement,
+      };
+    } else {
+      const imageElement = (
+        <BgImage
+          key={index}
+          image={getImage(content.localFile)}
+          keepStatic
+          // @ts-ignore
+          style={{
+            position: "fixed",
+          }}
+          fadeIn={false}
+          critical={true}
+          className={`left-0 top-0 z-10 h-screen w-full bg-cover bg-center`}
+        />
+      );
+      return {
+        uptime,
+        content: imageElement,
+      };
+    }
   }
 
   render() {

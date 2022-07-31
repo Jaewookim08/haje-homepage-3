@@ -1,17 +1,19 @@
-import React, { ReactNode } from "react";
+import React, { ReactElement } from "react";
 import { mod, randomInt } from "mathjs";
 
 // Todo: transition 추가?
-type SwitchDataElementInput = {
-  content: ReactNode;
+export type SwitchDataElementInput = {
+  content: ReactElement;
   uptime?: number;
+  playElement?: () => Promise<void>;
   // transitionDuration?: number;
 };
 
 type SwitchDataElement = {
-  content: ReactNode;
+  content: ReactElement;
   uptime: number;
-  transitionDuration: number;
+  playElement: (() => Promise<void>) | undefined;
+  transitionDuration: number; // Todo: 사용?
 };
 
 type Props = {
@@ -21,17 +23,19 @@ type Props = {
 
 type State = {
   switchIndex: number;
+  previousElement: ReactElement | undefined;
 };
 
-// Todo: 로딩될 때까지 전 컴포넌트로 가리기 (하얀색 flicker 방지)
 export default class Cycler extends React.Component<Props, State> {
   public state: State = {
     switchIndex: 0,
+    previousElement: undefined,
   };
 
   private readonly defaultSwitchDataElement = {
     uptime: 2,
     transitionDuration: 0,
+    playElement: undefined,
   };
 
   private timeoutId: NodeJS.Timeout | undefined;
@@ -71,17 +75,26 @@ export default class Cycler extends React.Component<Props, State> {
     clearTimeout(this.timeoutId);
   }
 
-  private runCycleFromIndex(index: number) {
+  private async runCycleFromIndex(index: number) {
     clearTimeout(this.timeoutId);
+    const prevIndex = this.state.switchIndex;
     const i = index % this.props.switchData.length;
     const element = this.getElement(i);
 
     this.setState({
       switchIndex: i,
+      previousElement: this.getElement(prevIndex).content,
     });
 
-    this.timeoutId = setTimeout(() => {
-      this.runCycleFromIndex(i + 1);
+    if (element.playElement) {
+      await element.playElement();
+    }
+    this.setState({
+      previousElement: undefined,
+    });
+
+    this.timeoutId = setTimeout(async () => {
+      await this.runCycleFromIndex(i + 1);
     }, (element.uptime + element.transitionDuration) * 1000);
   }
 
@@ -100,6 +113,19 @@ export default class Cycler extends React.Component<Props, State> {
     const { startIndex, switchData, ...rest } = this.props;
     const i = this.state.switchIndex;
 
-    return <div {...rest}>{this.getElement(i).content}</div>;
+    const currentContentVisible = this.state.previousElement === undefined;
+    const currContent = this.getElement(i).content;
+    const editedCurrContent = React.cloneElement(currContent, {
+      className: `${currContent.props.className ?? ""} ${
+        currentContentVisible ? "visible" : "hidden"
+      }`,
+    });
+
+    return (
+      <div {...rest}>
+        {editedCurrContent}
+        {this.state.previousElement}
+      </div>
+    );
   }
 }
