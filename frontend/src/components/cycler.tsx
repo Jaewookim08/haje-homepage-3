@@ -5,14 +5,12 @@ import { mod, randomInt } from "mathjs";
 export type SwitchDataElementInput = {
   content: ReactElement;
   uptime?: number;
-  playElement?: () => Promise<void>;
   // transitionDuration?: number;
 };
 
 type SwitchDataElement = {
   content: ReactElement;
   uptime: number;
-  playElement: (() => Promise<void>) | undefined;
   transitionDuration: number; // Todo: 사용?
 };
 
@@ -23,22 +21,27 @@ type Props = {
 
 type State = {
   switchIndex: number;
-  previousElement: ReactElement | undefined;
+  previousIndex: number | undefined;
 };
 
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export default class Cycler extends React.Component<Props, State> {
+  private startIndex: number;
+  private timeoutId: NodeJS.Timeout | undefined;
+
   public state: State = {
     switchIndex: 0,
-    previousElement: undefined,
+    previousIndex: 0,
   };
 
   private readonly defaultSwitchDataElement = {
     uptime: 2,
     transitionDuration: 0,
-    playElement: undefined,
+    waitForLoad: undefined,
   };
-
-  private timeoutId: NodeJS.Timeout | undefined;
 
   public constructor(props: Props) {
     super(props);
@@ -64,37 +67,37 @@ export default class Cycler extends React.Component<Props, State> {
       throw new Error("Start index should be positive");
     }
 
-    this.state.switchIndex = i;
+    this.startIndex = i;
+    this.state.switchIndex = i - 1;
   }
 
   public componentDidMount() {
-    this.runCycleFromIndex(this.state.switchIndex);
+    this.runCycle(this.startIndex);
   }
 
   public componentWillUnmount() {
     clearTimeout(this.timeoutId);
   }
 
-  private async runCycleFromIndex(index: number) {
+  private async runCycle(startIndex: number) {
     clearTimeout(this.timeoutId);
     const prevIndex = this.state.switchIndex;
-    const i = index % this.props.switchData.length;
+    const i = startIndex % this.props.switchData.length;
     const element = this.getElement(i);
 
     this.setState({
       switchIndex: i,
-      previousElement: this.getElement(prevIndex).content,
+      previousIndex: prevIndex,
     });
 
-    if (element.playElement) {
-      await element.playElement();
-    }
+    await sleep(100);
+
     this.setState({
-      previousElement: undefined,
+      previousIndex: undefined,
     });
 
     this.timeoutId = setTimeout(async () => {
-      await this.runCycleFromIndex(i + 1);
+      await this.runCycle(i + 1);
     }, (element.uptime + element.transitionDuration) * 1000);
   }
 
@@ -112,8 +115,11 @@ export default class Cycler extends React.Component<Props, State> {
   public render() {
     const { startIndex, switchData, ...rest } = this.props;
     const i = this.state.switchIndex;
+    if (i === undefined) {
+      return <div {...rest} />;
+    }
 
-    const currentContentVisible = this.state.previousElement === undefined;
+    const currentContentVisible = this.state.previousIndex === undefined;
     const currContent = this.getElement(i).content;
     const editedCurrContent = React.cloneElement(currContent, {
       className: `${currContent.props.className ?? ""} ${
@@ -124,7 +130,9 @@ export default class Cycler extends React.Component<Props, State> {
     return (
       <div {...rest}>
         {editedCurrContent}
-        {this.state.previousElement}
+        {this.state.previousIndex !== undefined
+          ? this.getElement(this.state.previousIndex).content
+          : ""}
       </div>
     );
   }

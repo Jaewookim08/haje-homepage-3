@@ -66,22 +66,17 @@ export default class FrontPage extends React.Component<Props, State> {
           key={index}
           className={`fixed left-0 top-0 z-10 h-screen w-full border object-cover`}
           muted
+          autoPlay
           loop={false}
         >
           <source src={content.localFile.url} type={content.mime} />
           Failed to load video.
         </video>
       );
-      const playElement = async () => {
-        if (ref.current) {
-          await ref.current.play();
-        }
-      };
 
       return {
         uptime,
         content: videoElement,
-        playElement,
       };
     } else {
       const imageElement = (
