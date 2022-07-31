@@ -139,7 +139,7 @@ export default class FrontPage extends React.Component<Props, State> {
 
           {/* 배경 어둡게 앞에서 가려주는 놈*/}
           <div
-            className={`fixed left-0 top-0 z-20 z-10 h-screen w-full bg-gradient-to-r delay-700 duration-[2.5s] ease-in-out ${
+            className={`fixed left-0 top-0 z-20 z-10 h-screen w-full bg-gradient-to-r transition-colors delay-700 duration-[2.5s] ease-in-out ${
               this.state.isLoading ? "bg-black" : "bg-black/30"
             }`}
           />
