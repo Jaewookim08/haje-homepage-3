@@ -6,7 +6,7 @@ module.exports = {
     extend: {
       colors: {
         neutral: colors.neutral,
-        primary: colors.orange,
+        primary: "#f48c3f",
         frontpagePrimary: colors.white,
       },
       backgroundImage: {
