@@ -8,8 +8,10 @@ type Props = {
 const Navbar = ({ isFrontPage }: Props) => {
   return (
     <header
-      className={`fixed z-50 h-20 w-full ${
-        isFrontPage ? "bg-transparent text-white" : "bg-neutral-50 text-black"
+      className={`fixed z-50 h-20 w-full transition-colors duration-300 ease-in-out ${
+        isFrontPage
+          ? "bg-transparent text-white hover:bg-neutral-50 hover:text-black"
+          : "bg-neutral-50 text-black"
       } `}
     >
       <nav className="container flex flex-row flex-nowrap items-baseline justify-between py-6">
