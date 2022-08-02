@@ -7,7 +7,7 @@ frontend 폴더는 Gatsby 웹 페이지를 담고 있고, backend 폴더는 CMS�
 
 ### 빌드/테스트
 ##### Prerequisites
-`Node.js`: v16.16.0에서 테스트 완료
+`Node.js`: v16.16.0에서 테스트 완료\
 DB: strapi 내부적으로 사용하는 db 프로그램이 필요합니다. 현재로서는 `sqlite`입니다. \
 외부 db에 접속할 수도 있다고 알고 있습니다.
 
