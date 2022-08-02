@@ -30,7 +30,7 @@ const Navbar = ({ isFrontPage }: Props) => {
       className={`z-50 h-20 w-full transition-colors duration-300 ease-in-out ${
         isFrontPage
           ? "fixed bg-transparent text-white hover:bg-neutral-50 hover:text-black"
-          : "sticky bg-neutral-50 text-black"
+          : "sticky top-0 bg-neutral-50 text-black"
       } `}
     >
       <nav className="container flex h-full flex-row flex-nowrap items-center justify-between">
