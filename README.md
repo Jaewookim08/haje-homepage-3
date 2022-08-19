@@ -14,7 +14,7 @@ DB: strapi 내부적으로 사용하는 db 프로그램이 필요합니다. 현�
 ##### 환경 변수 설정
 
 Strapi CMS는 다음 다섯 환경 변수를 필요로 합니다. 설정은 backend 폴더에서 
-`.env`, `.env.development`, `.env.production` 등의 파일을 생성/수정하여 할 수 있습니다.
+`.env` 파일을 생성/수정하여 할 수 있습니다.
 ```shell
 HOST=0.0.0.0 # 서버 ip
 PORT=1337    # 서버를 열 포트
@@ -22,6 +22,7 @@ APP_KEYS=    # 임의의 앱 키 값
 API_TOKEN_SALT=    # node를 킨 후 crypto.randomBytes(16).toString('base64')의 값을 넣어 주세요.
 ADMIN_JWT_SECRET=  # 마찬가지로 node를 킨 후 crypto.randomBytes(16).toString('base64')의 값을 넣어 주세요.
 ```
+(주석 부분은 지워주세요)
 
 Gatsby 웹 페이지는 다음 두 환경 변수를 필요로 합니다. 설정은 backend 폴더에서
 `.env.development`, `.env.production` 등의 파일을 생성/수정하여 할 수 있습니다.
@@ -31,6 +32,7 @@ Gatsby 웹 페이지는 다음 두 환경 변수를 필요로 합니다. 설정�
 STRAPI_TOKEN=   # Strapi 토큰 값. Strapi에 접속한 후 Settings>API Tokens 에서 생성할 수 있습니다. 
 STRAPI_API_URL=http://localhost:1337 # 접속할 Strapi 서버의 주소, 포트를 포함해 주세요
 ```
+(주석 부분은 지워주세요)
 
 ##### 테스트
 각 폴더에서 `yarn develop` 커맨드를 통해 서버를 실행할 수 있습니다.
